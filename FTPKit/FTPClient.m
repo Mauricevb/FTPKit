@@ -501,11 +501,13 @@
 - (BOOL)sendCommand:(NSString *)command conn:(netbuf *)conn
 {
     const char *cmd = [command cStringUsingEncoding:NSUTF8StringEncoding];
-    if (!FtpSendCmd(cmd, '2', conn)) {
+    
+    if(!FtpSite(cmd, conn)) {
         NSString *response = [NSString stringWithCString:FtpLastResponse(conn) encoding:NSUTF8StringEncoding];
         self.lastError = [NSError FTPKitErrorWithResponse:response];
         return NO;
     }
+    
     return YES;
 }
 
